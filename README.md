@@ -9,19 +9,20 @@ Louis知识库
 申明: 知识点会尽量申请出处。但由于个人维护精力有限，若有纰漏，请及时指正，自当及时修正。
 ```
 ### [计算机网络](计算机.md) 
-### [Linux基本知识](Linux基本知识)
-### [流畅的Python](Python) 
+### [Linux基本知识](Linux基本知识.md)
+### [流畅的Python](流畅的Python.md) 
 ### Python Cookbook
 ### Python源码剖析 
-### [数据结构与算法Python语言描述](数据结构与算法)
+### [数据结构与算法Python语言描述](数据结构与算法.md)
 ### 数据结构与算法Python语言描述
 ### 利用Python进行数据分析
 ### Flask
 ### MySQL
-### [Redis](Redis)
+### [Redis](Redis.md)
 ### ElasticSearch
 ### Docker
-### [neovim](neovim)
-### [Markdown](Markdown)
-### [tmux](tmux)
-### [问题和任务收集](问题收集)
+### [neovim](neovim.md)
+### [Markdown](Markdown.md)
+### [tmux](tmux.md)
+### Kubernetes
+### [问题和任务收集](问题收集.md)
