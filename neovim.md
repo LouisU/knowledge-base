@@ -85,16 +85,13 @@ noremap <C-l> <C-w>l
 set fileencoding=utf-8 " you'll change the output encoding of the file that is written.
 <++>
 ```
-## neovim + Tmux
-Install Tmux
-```
 
-```
+## neovim commands and command mode
+Activate command mode -- press : 
 
-Tmux Usage
+When in command mode, we can do:
 ```
-<++>
-```
+1. ctrl+f  we can check the history of commands.
+2. ctrl+f :q   After we get in command history, can quit out by typei n :q.
+3. 
 
-<++>
-<++>

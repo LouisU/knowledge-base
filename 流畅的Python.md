@@ -311,8 +311,93 @@ In [7]:
 ### 自定义序列类
 手动实现可切片的序列类
 什么可切片，就是可以用切片语法, a=object[:2]其中[:2]就是切片语法。其中object称为可切片对象。object对象的类，称为可切片的序列类。
-\__getitem__
-\__contains__
-\__iter__
+\_\_getitem\_\_
+\_\_contains\_\_
+\_\_iter\_\_
 ### bisect维护一排序序列
+#### \_\_getattr\_\_ 、\_\_getattribute\_\_魔法函数
+\_\_getattr\_\_: when \_\_getattribute\_\_ cannot find the attribute, then it would get into \_\_getattr\_\_.
+```python
+
+class User:
+
+    def __init__(self, name, info={}):
+        self.name = name
+        self.info = info
+
+    def __getattr__(self, item):
+        return item
+
+
+if __name__ == "__main__":
+    user = User(name="bobby", info={"company_name":"ABC"})
+    print(user.name)
+    print(user.test)
+    
+    # test is not a attribute of person, but because we defined __getattr__. it would take effect.
+--------
+# reuslt turned out:
+bobby
+test
+```
+And we can re-define \_\_getattr\_\_ function to control the object.attribute returns.
+```python
+
+class User:
+
+    def __init__(self, name, info={}):
+        self.name = name
+        self.info = info
+
+    def __getattr__(self, item):
+        return self.info[item]
+
+
+if __name__ == "__main__":
+    user = User(name="bobby", info={"company_name":"ABC"})
+    print(user.name)
+    print(user.company_name) # so with re-defined __getattr__, we can visit user.comany_name which is a key of self.info.
+--------
+# result turned out:
+bobby
+ABC
+
+```
+
+
+\_\_getattribute__ this function is more advan then getattr
++ When we visit a attribute of object with farmat object.attribute, it would call __getattribute__ anyway. no matter the "attribute" exist or not exist.
++ \_\_getattribute\_\_ would cover \_\_getattr\_\_  
++ DO NOT re-define \_\_getattribute\_\_ function if we cannot take good control of it.
+
+
+```python
+
+class User:
+    def __init__(self,info={}):
+        self.info = info
+
+    def __getattr__(self, item):
+        print("#2")
+        return self.info[item]
+
+    def __getattribute__(self, item):
+        print("#1")
+        print("something in getattribute")
+	
+
+if __name__ == "__main__":
+    user = User(info={"company_name":"imooc", "name":"bobby"})
+    print(user.name)
+    print(user.test)
+    
+--------
+# result below:
+#1
+something in getattribute
+None
+#1
+something in getattribute
+None
+```
 

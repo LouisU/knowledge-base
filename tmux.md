@@ -40,8 +40,8 @@ tmux kill-server
 #### Tmux Configuration
 Base setting in ~/.tmux.conf
 ```
-# use C-x instead C-b to motivate tmux command mode.
-set -g prefix C-x 
+# use C-z instead C-z to motivate tmux command mode.
+set -g prefix C-z 
 
 # disable key C-b.
 unbind C-b  
