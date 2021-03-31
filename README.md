@@ -27,3 +27,13 @@ Louis知识库
 ### Kubernetes
 ### [vimwiki](vimwiki.md)
 ### [问题和任务收集](问题收集.md)
+### [Daily Report](Daily Report.md)
+<++>
+
+Daily Task:
+1. Algorithm
+2. Data Structure
+3. Python Lesson and coding practice
+
+Order priority:
+1.  

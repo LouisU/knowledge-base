@@ -86,12 +86,21 @@ set fileencoding=utf-8 " you'll change the output encoding of the file that is w
 <++>
 ```
 
-## neovim commands and command mode
-Activate command mode -- press : 
 
-When in command mode, we can do:
-```
+## vim basic operations
+#### Normal Mode
+1. u     undo last change.
+2. ctrl + r  redo changes which were undone.
+3. 
+
+#### Visualize Mode
+
+#### Insert Mode
+
+#### Command Mode
+
 1. ctrl+f  we can check the history of commands.
 2. ctrl+f :q   After we get in command history, can quit out by typei n :q.
 3. 
+
 

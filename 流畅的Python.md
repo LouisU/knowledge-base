@@ -400,7 +400,129 @@ None
 something in getattribute
 None
 ```
+## 描述符
+#### 1. 什么是描述符?
+凡是实现了\_\_get\_\_、\_\_set\_\_、\_\_delete\_\_其中 一个魔法函数的类，都称作为描述符。
+#### 2. 描述符的使用
+```python
+class IntField:
+    def __get__(self):
+        return self.value
+    def __set__(self, value):
+        self.value = value
+
+class CharField:
+    def __get__(self):
+        return self.value
+    def __set__(self, value):
+        self.value = value
+
+class User:
+    name = CharField()
+    age = IntField()
 
 
-#### 元类
-用来创建类的类，是元类.
+
+user = User()
+user.name
+user.age
+# User类的属性name和age被描述符修饰过,
+# 所以当我们使用user.name的时候，会调用到CharField类中__get__方法。
+# 当我们使用user.name='louis',会调用到CharField类中的__set__方法。
+
+# 我们可以使用__set__方法来验证赋值语句中给的值是否是字符串类型，字符串长度，是否是邮箱地址格式，或者是否是电话格式。
+# 我们可以用__get__方法来动态的计算需要返回的值。比如user.age背后调用的__get__方法，会去birthday和今天的日期去计算现在的年龄，每次调用use.age返回的值都可能不一样。
+```
+
+#### 3. 描述符的分类 
+
+
+
+
+## 元类
+#### 1. 什么是元类
+用来创建类的类，是元类. type 就是一个元类。
+自定义元类，继承自定义MetaClass, MetaClass必须继承type. 继承了type的自定义类才是元类。
+```python
+class MetaClass(type):
+    pass
+    
+class User(metaclass=MetaClass):
+    pass
+```
+
+#### 2. 类对象实例化过程中的逻辑
+Python中类的实例化过程。注意，不是类生成实例对象的过程，而是产生类对象的过程。
+
+1. 默认创建类的方式是直接继承了object类，然后调用type()进行类的实例化。
+```python
+class User:
+    pass
+```
+User这个类 会在代码写完之后，Python程序运行之前,type回创建类对象，该类对象是全局唯一的。
+
+2. MetaClass方式创建类，这种方式在创建类对象过程中，
+   + 先会按一定的逻辑顺序来找metaclass
+      +  如果找到，通过metaclass去创建类。 
+      +  没找到metaclass, 走下面一步。
+   + 再调用type去创建类
+
+```python
+# MetaClass的查找逻辑一
+class MetaClass(type):
+    pass
+
+class User(metaclass=MetaClass)
+    pass
+# 以上这种继承方式，优先找User参数中的基类，参数中的基类有元类的话，那么就用该元类创建类对象。
+
+
+
+# MetaClass的查找逻辑二
+class BaseClass(MetaClass):
+    pass
+    
+class MetaClass(type):
+    pass
+
+class User(BaseClass)
+    pass
+# 
+# 以上这种继承方式，优先找User的metaclass参数，发现没有类，那么就去找User的其他参数(BaseClass) 其他参数中是不是元类或者是否继承了元类。有元类的话，那么就用该元类创建类对象。
+
+
+
+# MetaClass的查找逻辑三
+class BaseClass(MetaClass):
+    pass
+    
+class MetaClass:
+    pass
+
+class User(BaseClass)
+    pass
+# 以上两种逻辑都找不到元类就去模块中找。找到了元类就使用该元类实例化类对象。
+```
+3. 元类编程的使用场景
+使用场景1:
+```python
+# collections.abc module has class Iterable
+class Iterable(metaclass=ABCMeta):
+    __slots__ = ()
+
+    @abstractmethod
+    def __iter__(self):
+        while False:
+            yield None
+
+    @classmethod
+    def __subclasshook__(cls, C):
+        if cls is Iterable:
+            return _check_methods(C, "__iter__")
+        return NotImplemented
+
+    __class_getitem__ = classmethod(GenericAlias)
+
+# The Iterable inherit metaclass ABCMeta clas
+# ABCMeta defines __new__, in this magic function will check if Iterable's abstractmethod be re-defined. If re-defined, it's fine. or raise an error and stop the program.
+```
