@@ -25,4 +25,5 @@ Louis知识库
 ### [Markdown](Markdown.md)
 ### [tmux](tmux.md)
 ### Kubernetes
+### [vimwiki](vimwiki.md)
 ### [问题和任务收集](问题收集.md)

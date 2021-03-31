@@ -401,3 +401,6 @@ something in getattribute
 None
 ```
 
+
+#### 元类
+用来创建类的类，是元类.
