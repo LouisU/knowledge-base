@@ -526,3 +526,34 @@ class Iterable(metaclass=ABCMeta):
 # The Iterable inherit metaclass ABCMeta clas
 # ABCMeta defines __new__, in this magic function will check if Iterable's abstractmethod be re-defined. If re-defined, it's fine. or raise an error and stop the program.
 ```
+#### 迭代协议
+##### 什么是迭代协议
+##### 如何定义迭代器
+##### 自己写try/except访问迭代器 写for访问迭代器
+##### 自己定义可迭代类时如何设计迭代器功能
+
+#### 生成器函数 包含yield 和 return的函数返回的一个是生成器 一个是return的值
+##### python编译字节码的时候 发现func中含有yield关键字就会将func转化为迭代器对象
+##### yield语句之后可以再写yield语句  return不能再接return. 这是python的惰性求值的精妙设计。
+#### 生成器原理
+了解生成器原理在自定义生成器 和 使用生成器的过程中能心中有数。
+使代码更pythonic和程序内存有更高效的使用。
+##### python中函数的工作原理
+```
+python.exe会用一个PyEval_EvalFramEx(c函数)去执行我们定义的python函数
+首先会创建一个栈帧.
+
+python一切皆对象，栈帧也是对象 字节码对象
+当自定义函数调用了函数2，又会创建一个栈帧
+所有的栈帧都是分配在堆的内存上，堆的内存的特征就是不去释放它的话它会一直存在。所有这就决定了栈帧可以独立于调用者存在。
+而生成器的栈帧有更高一层去记录函数的执行位置和该位置的变量。
+这样就能控制函数执行停止的位置，也可以控制函数再接着执行的位置和变量。
+这是生成器的工作原理。也是协程的理论基础。
+```
+##### 生成器在UserList中的应用
+from collections import UserList中其实用Python实现了List的逻辑
+我们可以通过UserList看到生成器在其中的应用。
+UserList -> MutableSequence -> Sequence -> __inter__
+#### 生成器读取大文件
+
+

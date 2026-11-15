@@ -1,3 +1,4 @@
+[TOC]
 neovim
 --------
 ## vimrc file I'm using
