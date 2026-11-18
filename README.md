@@ -33,6 +33,10 @@ Louis知识库
 ### [问题和任务收集](问题收集.md)
 ### [Daily Report](Daily Report.md)
 
+## lua
+### [lua/草稿](lua/草稿.md)
+
+
 ## AI
 ### [AI/深度学习](AI/深度学习.md)
 ## 编辑环境
