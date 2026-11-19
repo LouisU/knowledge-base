@@ -1,3 +1,4 @@
+[TOC]
 # lua学习笔记
 ## 为什么学习lua
 最近开始使用neovim编辑器做笔记、也想做开发。要精通neovim, lua语言是要熟悉的。因为neovim现在最好的插件管理器lazy.nvim就是用lua实现的，neovim全局的配置和插件的管理都是通过lua实现。所以长期来看，要扩展很多插件，增强neovim的功能的话，lua要熟悉，至少在neovim插件需要用的Lua语法和运行原理要明白怎么回事。
@@ -56,11 +57,178 @@ for k,v in pairs(tab1) do
 end
 -- 输出:
 -- 1-val3  # "val3"没有定义key, 默认用数字作为key，而前面两个元素是自定义的key，那么就从"val3"开始用数字1. 没有指定key时，默认从1开始给索引
--- key2-val2 这里为什么先输出key2而不是key1？
 -- key1-val1
+-- key2-val2 
 
--- 1-val3
+-- 1-val3   key1=nil相当于空值，可以理解为不存在了。
 -- key2-val2
+tab2 = {key1="val1", "val2", key3="val3", "val4"}
+for k,v in pairs(tab2) do
+	print(k .. "-" ..v)
+end
+
+tab2.key3 = nil
+for k,v in pairs(tab2) do
+	print(k .. "-" ..v)
+end
+-- 输出:
+-- 1-val2
+-- 2-val4  优先输出默认的数组索引
+-- key1-val1 在输出定义的键值对
+-- key3-val3
+-- 1-val2
+-- 2-val4
+-- key1-val1
+-- 
+
+print(type("hello lua"))  -- string
+print(type(10.4*3))   -- number
+print(type(print))   -- function
+print(type(true))   -- boolean
+print(type(nil))   -- nil
+print(type(type(X)))   -- string
+print(type(type(true)))   -- string
+print(type(type(10.1)))   -- string
+```
+可见type函数返回一定是string类型。
+#### nil
+nil为空。任何没有赋值的变量都输出nil值
+
+```lua
+> print(X)
+nil
+> X == nil
+true
+> type(X) == nil
+false
+> type(X) == "nil"
+true
+>
+```
+#### boolean
+``` lua
+print(true)    -- true 直接输出boolean类型的值
+print(type(true)) -- boolean 直接输出的是type函数的返回值，该值属于字符串类型
+print(type(type(false))) -- string 直接输出字符串类型名称
+if false or nil then  
+     print("at least one true")
+else
+    print("all false")
+end  -- all false 可知nil也是false
+
+```
+
+#### number
+lua默认只有一种number类型--双精度类型
+```lua
+print(2)  -- 2
+print(2.2)  -- 2.2
+print(2e+1)  -- 20.0 
+print(7.2333e-06)  -- 7.2333e-06
+print(type(2))  -- number
+print(type(2.2))  -- number
+print(type(2e+1))  -- number
+print(type(7.23e-06))  -- number
+```
+#### string
+```lua
+string1= "this is sring1"  -- 字符串
+string2 = [[
+<html>
+<head></head>
+<body>
+    <a href="xx"></a>
+</body>
+</html>
+]]   -- 字符块
+-- 字符运算
+print("2"+6) -- 8
+print("2"+"6") -- 8
+print("2+6") -- 2+6
+print("-2e2"*6) -- -1200.0
+print("-2e2"*"6") -- -1200.0
+print("number"+6) -- lua: number.lua:14: attempt to add a 'string' with a 'number'
+print(type("2"+6)) -- number
+print(type("2"+"6")) -- number
+print(type("2+6")) -- string
+print(type("-2e2"*6)) -- number 
+print(type("-2e2"*"6")) -- number
+
+-- 字符连接
+print("a" .. 'b') -- ab
+print(157 .. 428) -- 157428
+
+-- 字符长度
+len = "abcd"
+print(#len)  -- 4
+
+
+```
+
+#### table
+```lua
+local tbl1 = {} -- 创建空表
+local tbl2 = {"apple","banana", "orange"} -- 创建有值的table
+tbl2['name"] = "fruit"
+for k,v in pairs(tbl2) do
+print(k .."-"..v)
+end
+-- 1-apple
+-- 2-banana
+-- 3-orange
+-- name-fruit
+print(tbl2["name"]) -- fruit
+print(tbl2[1]) -- apple
+tbl2[1] -- apple
+
 ```
 
 
+
+
+
+
+
+
+
+
+
+
+-----
+## 错误收集
+#### 1. 函数语句中不用逗号分割语句
+
+```lua
+
+return{
+   "catppuccin/nvim",
+   name = "catppuccin",
+   lazy = false,
+   priority = 1000,
+   config = function()
+    require("catppuccin").setup({
+      flavour = "mocha",  -- latte / frappe / macchiato / mocha
+    })
+    vim.cmd.colorscheme("catppuccin")
+   end
+}
+
+```
+
+上面Lua代码中，我写成`vim.cmd.colorscheme("catppuccin"),`就多了一个,号，就执行失败了。错误的原因是语法错误。因为函数中不能有逗号。
+```lua
+return {
+  "catppuccin/nvim",       -- 表字段1
+  name = "catppuccin",     -- 表字段2
+  lazy = false,            -- 表字段3
+  priority = 1000,         -- 表字段4
+  config = function()      -- 表字段5，值是一个函数
+    require("catppuccin").setup({ flavour = "mocha" })
+    vim.cmd.colorscheme("catppuccin")   -- ← 这是函数体内的语句，不是表字段
+  end,                       -- ← 这个逗号才是分隔符，分隔 config 字段和后面的字段
+}
+
+```
+
+逗号是分割表字段的，而不是用在函数中的语句之间的。函数语句之间用换行符即可。
+`function() .. end` 中间的语句不能用,号

@@ -34,7 +34,7 @@ Louis知识库
 ### [Daily Report](Daily Report.md)
 
 ## lua
-### [lua/草稿](lua/草稿.md)
+### [lua/draft](lua/draft.md)
 
 
 ## AI
@@ -44,7 +44,7 @@ Louis知识库
 ## Tools 
 ### Tools/aerospace
 ### Tools/iterm2 
-### Tools/neovim
+### [Tools/neovim](Tools/neovim.md)
 ### Tools/git
 
 
