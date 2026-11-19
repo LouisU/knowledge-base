@@ -11,7 +11,7 @@ macOS上直接运行`brew install lua`
 安装完后运行 `lua -v` 正常返回版本号证明安装完成
 
 ## 注释 
-lua文件中，注释用 -- 开头
+lua文件中，注释用`--` 开头
 ```lua
 -- 创建文件hello.lua，文件内容
 print("Hello lua!")
