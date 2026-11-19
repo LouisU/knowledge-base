@@ -10,16 +10,32 @@
 macOS上直接运行`brew install lua`
 安装完后运行 `lua -v` 正常返回版本号证明安装完成
 
-## 第一个lua文件
+## 注释 
+lua文件中，注释用 -- 开头
 ```lua
 -- 创建文件hello.lua，文件内容
 print("Hello lua!")
 
 ```
-保存文件后运行`lua hello.lua`输出: Hello lua!
-> 输出用print()函数
-> 
-> 注释用 ---
+
+## 表达式与语句
+Lua文件时一个chunk(代码块)，chunk里只能放语句, 不允许放表达式。
+| 概念             | 作用                       | 例子                          |
+| ---              | ---                        | ---                           |
+| expression表达式 | 求\取出一个值(拿到一个值)  | 1+2，"hello", 2.2             |
+| statement语句    | 执行一个动作(拿值做了操作) | x = 1，pint(),if .. else..end |
+1. 表达式不是语句。
+2. 语句中包含表达式。
+3. 表达式不参与任何操作(比如赋值、函数、条件语句等)时，即取到值后立即被释放了，这样的表达式被认定为无意义。
+```lua
+8+2 -- 在lua文件中执行报错：lua: statement_expression.lua:1: unexpected symbol near '8'
+tbl1[1] -- 报错
+X -- 报错
+local x = 1
+print(x)
+if x > 0 then print("ok") end
+return x
+```
 
 ## 变量
 变量的命名规则：
@@ -46,51 +62,6 @@ print(d) -- 输出nil
 |userdata|表示任意寸寸在变量中的c数据结构|
 |thread|表示执行的独立线路，用于执行协同程序|
 |**table**|Lua中的table。是关联数组。数组的索引可以是数字、字符串或表类型。table的创建时通过“构造表达式”来完成，最简单的构造表达式是{}，构造一个空表|
-```lua
-tab1 = {key1="val1", key2="val2", "val3"}
-for k,v in pairs(tab1) do
-	print(k .. "-" ..v)
-end
-tab1.key1 = nil
-for k,v in pairs(tab1) do
-	print(k .. "-" ..v)
-end
--- 输出:
--- 1-val3  # "val3"没有定义key, 默认用数字作为key，而前面两个元素是自定义的key，那么就从"val3"开始用数字1. 没有指定key时，默认从1开始给索引
--- key1-val1
--- key2-val2 
-
--- 1-val3   key1=nil相当于空值，可以理解为不存在了。
--- key2-val2
-tab2 = {key1="val1", "val2", key3="val3", "val4"}
-for k,v in pairs(tab2) do
-	print(k .. "-" ..v)
-end
-
-tab2.key3 = nil
-for k,v in pairs(tab2) do
-	print(k .. "-" ..v)
-end
--- 输出:
--- 1-val2
--- 2-val4  优先输出默认的数组索引
--- key1-val1 在输出定义的键值对
--- key3-val3
--- 1-val2
--- 2-val4
--- key1-val1
--- 
-
-print(type("hello lua"))  -- string
-print(type(10.4*3))   -- number
-print(type(print))   -- function
-print(type(true))   -- boolean
-print(type(nil))   -- nil
-print(type(type(X)))   -- string
-print(type(type(true)))   -- string
-print(type(type(10.1)))   -- string
-```
-可见type函数返回一定是string类型。
 #### nil
 nil为空。任何没有赋值的变量都输出nil值
 
@@ -119,7 +90,7 @@ end  -- all false 可知nil也是false
 ```
 
 #### number
-lua默认只有一种number类型--双精度类型
+lua默认只有一种number类型--双精度类型。双精度就是用 64 位来存一个浮点数，比单精度更精确、范围更大，但仍然会有浮点误差。
 ```lua
 print(2)  -- 2
 print(2.2)  -- 2.2
@@ -166,6 +137,51 @@ print(#len)  -- 4
 ```
 
 #### table
+```lua
+tab1 = {key1="val1", key2="val2", "val3"}
+for k,v in pairs(tab1) do
+	print(k .. "-" ..v)
+end
+tab1.key1 = nil
+for k,v in pairs(tab1) do
+	print(k .. "-" ..v)
+end
+-- 输出:
+-- 1-val3  # "val3"没有定义key, 默认用数字作为key，而前面两个元素是自定义的key，那么就从"val3"开始用数字1. 没有指定key时，默认从1开始给索引
+-- key1-val1
+-- key2-val2 
+
+-- 1-val3   key1=nil相当于空值，可以理解为不存在了。
+-- key2-val2
+tab2 = {key1="val1", "val2", key3="val3", "val4"}
+for k,v in pairs(tab2) do
+	print(k .. "-" ..v)
+end
+
+tab2.key3 = nil
+for k,v in pairs(tab2) do
+	print(k .. "-" ..v)
+end
+-- 输出:
+-- 1-val2
+-- 2-val4  优先输出默认的数组索引
+-- key1-val1 在输出定义的键值对
+-- key3-val3
+-- 1-val2
+-- 2-val4
+-- key1-val1
+-- 
+
+print(type("hello lua"))  -- string
+print(type(10.4*3))   -- number
+print(type(print))   -- function
+print(type(true))   -- boolean
+print(type(nil))   -- nil
+print(type(type(X)))   -- string
+print(type(type(true)))   -- string
+print(type(type(10.1)))   -- string
+```
+可见type函数返回一定是string类型。
 ```lua
 local tbl1 = {} -- 创建空表
 local tbl2 = {"apple","banana", "orange"} -- 创建有值的table
