@@ -45,7 +45,7 @@ Louis知识库
 ### Tools/aerospace
 ### Tools/iterm2 
 ### [Tools/neovim](Tools/neovim.md)
-### Tools/git
+### [Tools/git](Tools/git.md)
 
 
 
