@@ -41,11 +41,11 @@ Louis知识库
 ### [AI/深度学习](AI/深度学习.md)
 ## 编辑环境
 
-## Tools 
-### Tools/aerospace
-### Tools/iterm2 
-### [Tools/neovim](Tools/neovim.md)
-### [Tools/git](Tools/git.md)
+## tools 
+### tools/aerospace
+### tools/iterm2 
+### [tools/neovim](tools/neovim.md)
+### [tools/git](tools/git.md)
 
 
 
