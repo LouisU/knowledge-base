@@ -38,18 +38,87 @@ return x
 ```
 
 ## 变量
-变量的命名规则：
+#### 变量的命名规则：
 1. 以一个字母 A 到 Z 或 a 到 z 或下划线 _ 开头后加上 0 个或多个字母，下划线，数字（0 到 9）来命名变量。
 2. 不允许使用特殊字符如 @, $, 和 % 来定义变量。
 3. 区分大小写。Runo 与 runno 是两个变量。
 4. 一般约定，一下划线开头连接一串大写字母的名字被保留用于Lua内部全局变量（比如——VERSION)。
-```lua
-a = "1" -- a是全局变量, **不用关键词local 声明的都是全局变量** 
-print(a) -- 输出1
-c = nil -- nil相当于为空。变量指向nil时，就不存在。
-print(c)  -- 输出nil
-print(d) -- 输出nil
 ```
+@1 不允许
+9_app 不允许
+_abc 允许
+fish_ 允许
+app_1 允许
+```
+
+#### 变量类型：
+1. 变量有三种类型：全局变量、局部变量、表中的域
+2. 编译程序执行代码之前，需要给变量开辟存储区，用于存储变量的值。全局变量、局部标量、表中的域，它们分别怎么存。
+
+#### 全局变量和局部变量:
+| 特性 | 局部变量 (`local`) | 全局变量 (默认) |
+|---|---|---|
+| **存储位置** | 虚拟机寄存器/栈 | 全局表 `_G` |
+| **访问速度** | 极快（索引访问） | 较慢（哈希查找） |
+| **作用域** | 仅限声明所在的代码块 | 整个 Lua 程序 |
+| **内存回收** | 超出作用域自动回收 | 需手动赋 `nil` 才回收 |
+| **推荐程度** | ⭐⭐⭐⭐⭐（默认选择） | ⭐（尽量避免） |<websource>source_group_web_10</websource>
+
+
+```lua
+a = 1
+func = function()
+    b = "apple"
+    local c = "Louis"
+    print(a)
+    print(b)
+    print(c)
+end
+func()
+print(a)
+print(b)
+print(c)
+print("end")
+-- 输出
+-- 1
+-- apple
+-- Louis
+-- 1
+-- apple
+-- nil   
+
+```
+#### 变量赋值
+```lua
+a = {"hello", "lua", "python"}
+print(a) 
+h, k = 10, 2*10
+print(h, k) 
+x = 1
+y =2
+print(x, y)
+x, y = y, x
+print(x, y) 
+print(a[1], a[2]) 
+a[1], a[2] = a[2], a[1]
+print(a[1], a[2]) 
+d, c, e = a[1], a[2]
+print(d, c, e) 
+f, g, h = a[2], a[3]
+print(f, g, h) 
+-- 依次输出：
+-- 10	20
+-- 1	2
+-- 2	1
+-- hello	lua
+-- lua	hello
+-- lua	hello	nil
+-- hello	python	nil
+
+```
+
+
+
 
 ## 数据类型
 | 数据类型 | 描述 |
@@ -62,26 +131,38 @@ print(d) -- 输出nil
 |userdata|表示任意寸寸在变量中的c数据结构|
 |thread|表示执行的独立线路，用于执行协同程序|
 |**table**|Lua中的table。是关联数组。数组的索引可以是数字、字符串或表类型。table的创建时通过“构造表达式”来完成，最简单的构造表达式是{}，构造一个空表|
+```lua
+print(type(nil))   -- nil
+print(type(true))   -- boolean
+print(type(10.4*3))   -- number
+print(type("hello lua"))  -- string
+print(type(print))   -- function
+print(type({}))   -- table 
+print(type({"apple", "banana"}))  -- table
+print(type(type(10.1)))   -- string
+```
+
 #### nil
-nil为空。任何没有赋值的变量都输出nil值
+1. nil为空。
+2. 任何没有赋值的变量都输出nil值
+3. 条件语句中nil为false
 
 ```lua
-> print(X)
-nil
-> X == nil
-true
-> type(X) == nil
-false
-> type(X) == "nil"
-true
->
+print(X) -- nil
+X == nil -- true
+if nil
+    print(true)
+else:
+    print(false)
+end  -- false
 ```
 #### boolean
+1. 值为true false
+2. 常用于条件判断
 ``` lua
 print(true)    -- true 直接输出boolean类型的值
 print(type(true)) -- boolean 直接输出的是type函数的返回值，该值属于字符串类型
-print(type(type(false))) -- string 直接输出字符串类型名称
-if false or nil then  
+if true then  
      print("at least one true")
 else
     print("all false")
@@ -90,7 +171,7 @@ end  -- all false 可知nil也是false
 ```
 
 #### number
-lua默认只有一种number类型--双精度类型。双精度就是用 64 位来存一个浮点数，比单精度更精确、范围更大，但仍然会有浮点误差。
+1. lua默认只有一种number类型--双精度类型。双精度就是用 64 位来存一个浮点数，比单精度更精确、范围更大，但仍然会有浮点误差。
 ```lua
 print(2)  -- 2
 print(2.2)  -- 2.2
@@ -102,9 +183,10 @@ print(type(2e+1))  -- number
 print(type(7.23e-06))  -- number
 ```
 #### string
+1. 字符串不是表
 ```lua
 string1= "this is sring1"  -- 字符串
-string2 = [[
+string2 = [[      
 <html>
 <head></head>
 <body>
@@ -131,12 +213,33 @@ print(157 .. 428) -- 157428
 
 -- 字符长度
 len = "abcd"
-print(#len)  -- 4
-
-
+print(#len)  -- # 符号代表计算长度
 ```
 
 #### table
+1. 创建表 即 表的初始化
+```lua
+tbl1 = {}
+tbl2 = {"apple", "banana", "candy"}
+
+```
+2. 表的索引可以是数字，也可以是字符串。没有定义索引时，默认有从1开始的数字索引
+```lua
+tbl2 = {"apple", "banana", "candy"}
+print(tbl2[1], tbl2[2]) 
+tbl2[10] = "jacky"
+tbl2["age"] = 18
+for k,v in pairs(tab1) do
+	print(k .. "-" ..v)
+-- apple  banana
+-- 1-apple
+-- 2-banana
+-- 3-candy
+-- 10-jacky
+-- age-18
+```
+
+
 ```lua
 tab1 = {key1="val1", key2="val2", "val3"}
 for k,v in pairs(tab1) do
@@ -172,14 +275,6 @@ end
 -- key1-val1
 -- 
 
-print(type("hello lua"))  -- string
-print(type(10.4*3))   -- number
-print(type(print))   -- function
-print(type(true))   -- boolean
-print(type(nil))   -- nil
-print(type(type(X)))   -- string
-print(type(type(true)))   -- string
-print(type(type(10.1)))   -- string
 ```
 可见type函数返回一定是string类型。
 ```lua
