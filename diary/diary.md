@@ -2,7 +2,7 @@
 > 当你学的更广时，知识的组合，带给你更多的创新灵感。
 > 
 > 当你学的更深时，知识的利刃，带你突破更多的境地。
-  
+- [ ] render-markdown插件安装备忘录: .lua\brew install tree-sitter\brew install tree-sitter-cli\:TSInstallInfo\TSInstall markdown markdown_inline\checkhealth nvim-treesitter\修改.lua文件rm.buf_enabled vim.opt_local.conceallevel=2 pattern="*.md"\ 到此成功渲染。但与vimwiki的目录回车键冲突，到处vimwiki跳转子目录失败。
 ### 20261121
 - [ ] 用python进行数据分析 - B
 - [ ] 深度学习 - A
