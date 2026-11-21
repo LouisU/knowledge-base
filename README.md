@@ -13,40 +13,46 @@ Louis知识库
 ### [计算机网络](计算机.md) 
 ### [Linux基本知识](Linux基本知识.md)
 ### [数据结构](data_structure/index.md)
+### [算法](数据结构与算法.md)
 
-## python
+## AI
+### [AI/深度学习](AI/深度学习.md)
+
+## python语言与应用
 ### [流畅的Python](流畅的Python.md) 
 ### Python Cookbook
 ### [Python源码剖析](Python源码剖析.md) 
-### [算法](数据结构与算法.md)
 ### 利用Python进行数据分析
 ### Flask
-### MySQL
-### [Redis](Redis.md)
-### ElasticSearch
-### Docker
-### [neovim](neovim.md)
-### [Markdown](Markdown.md)
-### [tmux](tmux.md)
-### Kubernetes
-### [vimwiki](vimwiki.md)
-### [问题和任务收集](问题收集.md)
-### [Daily Report](Daily Report.md)
 
 ## lua
 ### [lua/draft](lua/draft.md)
 
+## 数据库&中间件&搜索引擎
+### MySQL
+### [Redis](Redis.md)
+### ElasticSearch
 
-## AI
-### [AI/深度学习](AI/深度学习.md)
-## 编辑环境
+## 容器 & 云原生
+### Docker
+### Kubernetes
 
-## tools 
+
+## 工具
 ### tools/aerospace
 ### tools/iterm2 
 ### [tools/neovim](tools/neovim.md)
 ### [tools/git](tools/git.md)
+### [tools/markdown](tools/markdown.md)
+### [tmux](tmux.md)
+### [vimwiki](vimwiki.md)
 
+
+
+
+
+### [问题和任务收集](问题收集.md)
+### [Daily Report](Daily Report.md)
 
 
 
