@@ -18,13 +18,25 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
 # Setting start command 
 after-startup-command = [
-  'exec-and-forget sketchybar', 
+  'exec-and-forget /opt/homebrew/bin/sketchybar', 
   'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0'
 ]
-
+# Notify Sketchybar about workspace change
 exec-on-workspace-change = ['/bin/bash', '-c',
-  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+    'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
 ]
+#exec-on-workspace-change = ['/bin/bash', '-c',
+# 'export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH && sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+#]
+
+# ========= 新增 gaps 配置 =========
+[gaps]
+inner.horizontal = 10
+inner.vertical = 10
+outer.top = 45   # 重点：对应 sketchybar height=40，留一点余量
+outer.bottom = 10
+outer.left = 10
+outer.right = 10
 
 [mode.main.binding]
     # See: https://nikitabobko.github.io/AeroSpace/goodies#open-a-new-window-with-applescript
@@ -48,6 +60,7 @@ exec-on-workspace-change = ['/bin/bash', '-c',
     alt-v = 'split vertical'
 
     alt-f = 'fullscreen'
+    alt-shift-f = 'fullscreen --no-outer-gaps'
 
     alt-s = 'layout v_accordion' # 'layout stacking' in i3
     alt-w = 'layout h_accordion' # 'layout tabbed' in i3
@@ -96,3 +109,4 @@ exec-on-workspace-change = ['/bin/bash', '-c',
     l = 'resize width +50'
     enter = 'mode main'
     esc = 'mode main'
+

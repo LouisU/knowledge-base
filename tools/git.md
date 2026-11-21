@@ -190,4 +190,14 @@ git push origin v1.0.0
 
 ```
 
+#### dotfiles用git管理起来
+```bash
+mkdir -p ~/knowledge-base/dotfiles/sketchybar
+mv ~/.config/sketchybar/sketchybarrc ~/knowledge-base/dotfiles/sketchybar/sketchybarrc
+mv ~/.config/sketchybar/plugins ~/knowledge-base/dotfiles/sketchybar
+ln -s ~/knowledge-base/dotfiles/sketchybar/sketchybarrc ~/.config/sketchybar/sketchybarrc
+ln -s ~/knowledge-base/dotfiles/sketchybar/plugins ~/.config/sketchybar/plugins
+<++>
+```
 
+<++>
