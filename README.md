@@ -44,9 +44,9 @@ Louis知识库
 ### [tools/neovim](tools/neovim.md)
 ### [tools/git](tools/git.md)
 ### [tools/markdown](tools/markdown.md)
-### [tools/shell](tools/shell.md)
 ### [tmux](tmux.md)
 ### [vimwiki](vimwiki.md)
+### [tools/shell](tools/shell.md)
 
 
 
