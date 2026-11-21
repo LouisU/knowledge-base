@@ -40,10 +40,11 @@ Louis知识库
 
 ## 工具
 ### tools/aerospace
-### tools/iterm2 
+### [tools/iterm2](tools/iterm2.md) 
 ### [tools/neovim](tools/neovim.md)
 ### [tools/git](tools/git.md)
 ### [tools/markdown](tools/markdown.md)
+### [tools/shell](tools/shell.md)
 ### [tmux](tmux.md)
 ### [vimwiki](vimwiki.md)
 
