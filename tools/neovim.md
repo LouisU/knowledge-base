@@ -447,3 +447,31 @@ inoremap jk <Esc>
 :imap "查看插入模式下的映射
 :vnoremap "查看可视模式下非递归映射
 ```
+
+#### 问题收集
+**背景**: 我将`<leader>SS`按键映射成为了`:Startify<cr>`，这样可以在nvim打开任何文件时，快速进入startify首页。
+```lua
+  -- startify.lua文件中按键映射相关设置。
+  keys = {
+    -- 随时快捷键调出startify首页
+    { "<leader>ss", "<cmd>Startify<CR>", desc = "Open Startify" },
+  }
+```
+基于此，我想每次在nvim中打开新的窗口的时候, 新窗口都直接打开startify首页(nvim在当前页想要打开新的窗口，新窗口默认会打开的“当前页”)。
+
+**解决方案**: 设置了以下的按键映射。
+```lua
+map("n", "<leader>sl", ":set splitright<cr>:vsp<cr>:<leader>ss", {desc="split window, go to right, open startify", silent=false})
+```
+**方案结果**: 以上设置保存后，在按`<leader>sl`后，其实就变成执行完`:set splitright<cr>:vsp<cr>:`后，再往按键队列中塞进几个普通的字符`<leader>ss`而已，这里的`<leader>ss`没有映射成`:Startify<cr>` ，所以没有达到打开startify首页的效果。
+
+**原因分析**: `vim.keymap.set` 默认是 非递归映射，所以执行到`<leader>ss`时并不会递归触发 `:Startify<cr>`.
+
+**修改方案**: 不再使用`<leader>ss`，而是用`:Startify<cr>`替代。效果达成。
+```lua
+map("n", "<leader>sl", ":set splitright<cr>:vsp<cr>:Startify<cr>", {desc="split window, go to right", silent=false})
+map("n", "<leader>sh", ":set nosplitright<cr>:vsp<cr>:Startify<cr>", {desc="split window, stay at left"})
+map("n", "<leader>sj", ":set splitbelow<cr>:sp<cr>:Startify<cr>", {desc="split window, go to down"})
+map("n", "<leader>sk", ":set nosplitbelow<cr>:sp<cr>:Startify<cr>", {desc="split window, stay at top"})
+```
+
