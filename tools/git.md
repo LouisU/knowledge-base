@@ -191,13 +191,21 @@ git push origin v1.0.0
 ```
 
 #### dotfiles用git管理起来
+1. 将原配置文件目录移到git仓库
+2. 在原配置目录下创建软链接指向git仓库。这样两边始终是指向同一个目录。对目录下配置文件修改，都是对git仓库下的文件修改。这样就可以使用git仓库管理起来了。
 ```bash
-mkdir -p ~/knowledge-base/dotfiles/sketchybar
-mv ~/.config/sketchybar/sketchybarrc ~/knowledge-base/dotfiles/sketchybar/sketchybarrc
-mv ~/.config/sketchybar/plugins ~/knowledge-base/dotfiles/sketchybar
-ln -s ~/knowledge-base/dotfiles/sketchybar/sketchybarrc ~/.config/sketchybar/sketchybarrc
-ln -s ~/knowledge-base/dotfiles/sketchybar/plugins ~/.config/sketchybar/plugins
-<++>
+# 具体操作如下：
+# ~/knowledge-base 目录是git目录
+# 在~/knowledge-base/dotfiles目录下创建sketchybar
+mkdir -p ~/knowledge-base/dotfiles/sketchybar/.config  
+# 将本地的配置文件目录完全转移到git仓库
+mv ~/.config/sketchybar ~/knowledge-base/dotfiles/sketchybar/.config/sketchybar
+# 删除本地的配置文件
+rm -rf ~/.config/sketchybar
+# 在本地.config目录下创建软链接，指向~/knowledge-base/dotfiles/sketchybar/.config/sketchybar
+ln -s ~/knowledge-base/dotfiles/sketchybar/.config/sketchybar ~/.config/sketchybar
+ls -al ~/.config/sketchybar
+# lrwxr-xr-x  1 shaoye  staff  67 11月 21 11:42 /Users/x/.config/sketchybar -> /Users/x/knowledge-base/dotfiles/sketchybar/.config/sketchybarUsers/shaoye/.config/sketchybar
 ```
 
-<++>
+
