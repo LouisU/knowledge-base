@@ -317,7 +317,7 @@ nnoremap <silent> <leader>wi :VimwikiIndex<CR>
 >
 > 事件: FileType markdown 检测到当前文件类型时markdown类型
 >
-> 执行命令：inoremap ,b **** <Esc>F*hi 即当按,b时，实际输出**** <++>并将光标停在四个*中间且进入插入模式。
+> 执行命令：inoremap ,b **** <Esc>F*hi 即当按,b时，实际输出**** 并将光标停在四个*中间且进入插入模式。
 >
 > **该命令只在markdown文件的插入模式下，快捷键映射命令才生效。py、TXT、c等等文件，快捷键映射不生效。**
 
@@ -452,7 +452,7 @@ inoremap jk <Esc>
 ```
 
 ## 问题收集
-#### 1. nvim分屏操作的同时，新窗口打开startify首页。
+#### 1. nvim分屏操作的同时，如何设置新窗口打开startify首页。
 
 **背景**: 我将`<leader>SS`按键映射成为了`:Startify<cr>`，这样可以在nvim打开任何文件时，快速进入startify首页。
 ```lua
@@ -480,7 +480,7 @@ map("n", "<leader>sj", ":set splitbelow<cr>:sp<cr>:Startify<cr>", {desc="split w
 map("n", "<leader>sk", ":set nosplitbelow<cr>:sp<cr>:Startify<cr>", {desc="split window, stay at top"})
 ```
 
-#### 2. 使用render-markdown.nvim渲染markdown文件。
+#### 2. 使用render-markdown.nvim渲染markdown文件, vimwiki进入README.md文件后没有渲染效果。
 **背景**: 在已经安装并使用vimwiki插件后，想安装render-markdown插件来渲染markdown文件，达到边使用vimwiki编辑markdown文件，边被render-markdown渲染的效果。
 **问题**: 当用nvim直接打开README.md时，`:echo &filetype`返回markdown, render-markdown渲染成功，<cr>键不做任何跳转。当用vimwiki快捷键`<leader>wi`vimwiki首页README.md时，`:echo &filetype`返回的是vimwiki，render-markdown不渲染，<cr>键为vimwiki默认跳转链接的功能。即render-markdownz在用vimwiki快捷键打开`<leader>wi`vimwiki首页README.md时，不生效。
 
@@ -519,3 +519,35 @@ return {
   end
 }
 ```
+#### markdown-preview.nvim 设置过enabled=false之后保存过一段时间，后删除的~/.config/nvim/lua/plugins/markdown-preview.lua, 并运行了`:Lazy clean`后删除插件。当再次安装markdown-preview插件时，同要的markdown-preview.lua内容，不再生效。
+**背景**: 安装markdown-preview, 修改markdown-preview.lua的enbled参数，卸载markdown-preview,再重新装回markdown-preview。
+**问题**: 重新装回markdownn-preview后(markdown-preview.lua和卸载前内容一模一样), markdown-preview不再生效。
+**原因分析**: 卸载markdown-preview之前，我将markdown-preview.lua中设置的enabled=false,即告诉Lazy不再加载了, 这个设置写入了~/.local/share/nvim/lazy/markdown-preview中。而卸载的时候，只是删除了~/.config/nvim/lua/plugins/markdown-preview.lua文件，并运行了`:Lazy clean`完成注销。再重新安装markdown-preview插件的时候，虽然用的同样的markdown-preview.lua文件(当时未设置enabled参数),但是enbaled=false这个参数在~/.local/share/nvim/lazy/markdown-preview中没有更正过来。导致安装markdown-preview插件后，markdown-preview拆件不生效。
+**解决方案**:
+先清理环境:
+1. 删除~/.local/share/nvim/lazy/markdown-preview。
+2. 删除~/.config/nvim/lua/plugins/markdown-preview.lua
+3. 运行`:Lazy clean` 
+再安装markdown-prevew
+4. 重新添加~/.config/nvim/lua/plugins/markdown-preview.lua(enabled参数不需要设置，即为默认值true)
+5. 运行`:Lazy install` 
+最后验证效果，打开md文件，按键`<leader>m`看是否有md页面弹出。
+```lua
+   -- install with yarn or npm
+return{
+     "iamcco/markdown-preview.nvim",
+     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+     ft = { "markdown" },
+     build = "cd app && yarn install",
+     init = function()
+       vim.g.mkdp_filetypes = { "markdown" }
+       vim.g.mkdp_auto_start = 0 -- 1 nvim auto open preview window
+       vim.g.mkdp_auto_close = 1 -- 1 nvim auto close prewiew window
+     end,
+     keys = {
+      { "<leader>m", "<cmd>MarkdownPreviewToggle<cr>", desc = "markdown preview" },
+     }
+}
+```
+
+   

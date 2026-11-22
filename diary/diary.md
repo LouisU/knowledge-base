@@ -13,20 +13,24 @@
 
 ## 结合人工智能，为人类深度学习技能，提供新的学习范式； -- 只能提供给人看看？还是可以提供课程？辅导服务？还是可以自己训练大模型？喂给个人拥有的知识和经验，让大模型提出针对个人想要提升的领域，其知识和经验还有什么欠缺，以及之前有哪些经验和知识是错误的。
 ## 结合人工智能，为人类广泛学习知识，提供新的学习范式；
-## 0001: 战略设定
+## 0001: 战略制定
 ## 1001: 掌握大模型原理
 ## 1002: 掌握大模型发展现状(行业现状及产业生态)
 
+### 20261123
 
+- [ ] 安装大模型插件 - C
+- [ ] 安装python开发环境插件 -B
+- [ ] 深度学习 - A 1001 
 ### 20261122
 - [ ] 用python进行数据分析 - B
-- [ ] 深度学习 - A 1001
+- [x] 深度学习 - A 1001 -- 开了个头
 - [ ] 设置目标\北极星指标 - A 0001
 - [x] nvim相对当前移动n行。
-- [ ] sketchybar控制workspace标签之间距离的控制变量，控图片和文字之间的距离变量。
+- [x] sketchybar控制workspace标签之间距离的控制变量，控图片和文字之间的距离变量。
 - [ ] lualine右下角在编辑markdown的时候有两个问号。怎么设置？
-- [ ] render-markdown 如何一边编辑markdown  一边浏览markdown呢？
-- [ ] render-markdown插件安装备忘录: .lua\brew install tree-sitter\brew install tree-sitter-cli\:TSInstallInfo\TSInstall markdown markdown_inline\checkhealth nvim-treesitter\修改.lua文件rm.buf_enabled vim.opt_local.conceallevel=2 pattern="*.md"\ 到此成功渲染。但与vimwiki的目录回车键冲突，到处vimwiki跳转子目录失败。
+- [x] render-markdown 如何一边编辑markdown  一边浏览markdown呢？-- 插件官方没有这个功能
+- [x] render-markdown插件安装备忘录: .lua\brew install tree-sitter\brew install tree-sitter-cli\:TSInstallInfo\TSInstall markdown markdown_inline\checkhealth nvim-treesitter\修改.lua文件rm.buf_enabled vim.opt_local.conceallevel=2 pattern="*.md"\ 到此成功渲染。但与vimwiki的目录回车键冲突，到处vimwiki跳转子目录失败。
 - [ ] 安装目录插件 - C
  
 ### 20261121
@@ -48,7 +52,7 @@
    - [x] 熟悉配置 
 - [x] 新窗口直接打开vim-startfiy页面 -A
 - [x] 安装git插件
-- [ ] 安装显示键盘按键的插件
+- [ ] 安装显示键盘按键的插件 -C
 - [x] nvim主题格式的插件
 - [x] 管理wiki的目录- A
 - [x] 输入md内容
