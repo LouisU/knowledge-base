@@ -16,7 +16,7 @@ Louis知识库
 ### [算法](数据结构与算法.md)
 
 ## AI
-### [AI/深度学习](AI/深度学习.md)
+### [AI/deeplearning](AI/deeplearning.md)
 
 ## python语言与应用
 ### [流畅的Python](流畅的Python.md) 
