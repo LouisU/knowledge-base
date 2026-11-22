@@ -1,25 +1,27 @@
 return {
   'MeanderingProgrammer/render-markdown.nvim',
-  ft = { "markdown" },
+  ft = { "markdown", "vimwiki" },
   dependencies = {
     'nvim-treesitter/nvim-treesitter',
     'nvim-mini/mini.nvim'
   },
   opts = {
-    -- 把链接跳转从 Enter 改成 gl
     keymaps = {
-      follow = { 'gl' },
+      follow = {},  -- disable built-in follow mapping, release <CR> to vimwiki
     }
   },
   config = function(_, opts)
     local rm = require('render-markdown')
     rm.setup(opts)
+    -- register vimwiki filetype to use markdown treesitter parser
+    vim.treesitter.language.register('markdown', 'vimwiki')
+
     vim.api.nvim_create_autocmd('BufEnter', {
-      pattern = 'markdown',
+      pattern = {'markdown', 'vimwiki'},  -- add vimwiki into pattern
       callback = function()
         vim.opt_local.conceallevel = 2
         rm.buf_enable()
       end,
     })
-  end,
+  end
 }

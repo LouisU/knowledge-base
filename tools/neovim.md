@@ -29,7 +29,7 @@ while not quit_flag:
 ### Mode模式
 > vim是一个多模态编辑器。
 >
-> 有normal、insert、command、visual等主要模态。
+> [有normal、insert、command、visual等主要模态。](有normal、insert、command、visual等主要模态。.md)
 
 **vim内部有一个全局的时间循环，主要做循环读取按键, 确定模态，根据当前模态解析按键，执行动作，修改缓冲区和视图。**
 
@@ -47,12 +47,12 @@ while not quit_flag:
 
 #### command-命令模式
 键入:进入命令模式，后面接命令，再回车触发执行。
-
 `:10,100y` 复制10-100行
-
 `:10,100d` 删除10-100行
-
 `:<C+f>` 查看历史跑过的命令
+`:verbose nmap <CR>` 查看当前buf中<CR>被映射成什么功能了
+`:echo &filetype` 查看当前buf文件类型
+
 
 #### visual-可视化模式
 #### operator-pending-操作等待模式
@@ -451,7 +451,9 @@ inoremap jk <Esc>
 :vnoremap "查看可视模式下非递归映射
 ```
 
-#### 问题收集
+## 问题收集
+#### 1. nvim分屏操作的同时，新窗口打开startify首页。
+
 **背景**: 我将`<leader>SS`按键映射成为了`:Startify<cr>`，这样可以在nvim打开任何文件时，快速进入startify首页。
 ```lua
   -- startify.lua文件中按键映射相关设置。
@@ -478,3 +480,42 @@ map("n", "<leader>sj", ":set splitbelow<cr>:sp<cr>:Startify<cr>", {desc="split w
 map("n", "<leader>sk", ":set nosplitbelow<cr>:sp<cr>:Startify<cr>", {desc="split window, stay at top"})
 ```
 
+#### 2. 使用render-markdown.nvim渲染markdown文件。
+**背景**: 在已经安装并使用vimwiki插件后，想安装render-markdown插件来渲染markdown文件，达到边使用vimwiki编辑markdown文件，边被render-markdown渲染的效果。
+**问题**: 当用nvim直接打开README.md时，`:echo &filetype`返回markdown, render-markdown渲染成功，<cr>键不做任何跳转。当用vimwiki快捷键`<leader>wi`vimwiki首页README.md时，`:echo &filetype`返回的是vimwiki，render-markdown不渲染，<cr>键为vimwiki默认跳转链接的功能。即render-markdownz在用vimwiki快捷键打开`<leader>wi`vimwiki首页README.md时，不生效。
+
+**诉求**: 如何在vimwiki快捷键打开笔记后，虽然`:echo &filetype`返回的是vimwiki，render-markdown依然渲染，并且<cr>键为vimwiki默认跳转链接的功能。
+**解决方案**: 
+1. render-markdown渲染的文件类型 新增vimwiki这种类型。
+2. render-markdown在vimwiki文件类型时会调用treesitter解析器解析文件。
+3. render-markdown的按键映射关掉，让出<cr>键给vimwiki。
+```lua
+-- render-markdown.lua
+return {
+  'MeanderingProgrammer/render-markdown.nvim',
+  ft = { "markdown", "vimwiki" },
+  dependencies = {
+    'nvim-treesitter/nvim-treesitter',
+    'nvim-mini/mini.nvim'
+  },
+  opts = {
+    keymaps = {
+      follow = {},  -- disable built-in follow mapping, release <CR> to vimwiki
+    }
+  },
+  config = function(_, opts)
+    local rm = require('render-markdown')
+    rm.setup(opts)
+    -- register vimwiki filetype to use markdown treesitter parser
+    vim.treesitter.language.register('markdown', 'vimwiki')
+
+    vim.api.nvim_create_autocmd('BufEnter', {
+      pattern = {'markdown', 'vimwiki'},  -- add vimwiki into pattern
+      callback = function()
+        vim.opt_local.conceallevel = 2
+        rm.buf_enable()
+      end,
+    })
+  end
+}
+```
