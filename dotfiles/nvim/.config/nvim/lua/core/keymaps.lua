@@ -1,13 +1,14 @@
 local map = vim.keymap.set
 
 -- 基本映射
+--
 -- 文件的退出和保存操作
-map("n", "ZQ", ":q<cr>", {desc="quit"})
-map("i", "ZQ", "<Esc>:q<cr>", {desc="quit"})
-map("n", "ZZ", ":wq<cr>", {desc="Save and quit"})
-map("i", "ZZ", "<Esc>:wq<cr>", {desc="Save and quit"})
+-- map("n", "ZQ", ":q<cr>", {desc="quit"})
+-- map("i", "ZQ", "<Esc>:q<cr>", {desc="quit"})
+-- map("n", "ZZ", ":wq<cr>", {desc="Save and quit"})
+-- map("i", "ZZ", "<Esc>:wq<cr>", {desc="Save and quit"})
 map("n", "zz", ":w<cr>", {desc="Save"})
-map("i", "zz", "<Esc>:w<cr>", {desc="Save"})
+-- map("i", "zz", "<Esc>:w<cr>", {desc="Save"})
 map("i", "jk", "<Esc>", {desc="change into normal mode from insert mode"})
 
 
