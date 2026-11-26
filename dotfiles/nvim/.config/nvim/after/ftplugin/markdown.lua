@@ -15,7 +15,7 @@ map("i", "<leader>C", "```python<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA"
 map("i", "<leader>c", "```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA", {desc=""})
 map("i", "<leader>h", "====<Space><++><Esc>F=hi", {desc=""})
 -- map("i", "<leader>p", "![](<++>) <++><Esc>F[a", {desc=""})
-map("i", "<leader>p", "<div style=\"width:100%; text-align:center; clear:both;\"><Enter>  <img src=\"\" alt=\"<++>\" style=\"width:50%;\"><Enter></div><Enter><Enter><++><Esc>03kf\"a", {desc=""}) 
+map("i", "<leader>p", "<div align=\"center\"><Enter><img src=\"\" alt=\"<++>\" width=\"50%\"><Enter></div><Enter><Enter><++><Esc>03kf\"a", {desc=""}) 
 map("i", "<leader>a", "[](<++>) <++><Esc>F[a", {desc=""})
 map("i", "<leader>1", "#<Space><Enter><++><Esc>kA", {desc=""})
 map("i", "<leader>2", "##<Space><Enter><++><Esc>kA", {desc=""})
