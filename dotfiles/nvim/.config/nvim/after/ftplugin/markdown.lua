@@ -21,6 +21,8 @@ map("i", "<leader>1", "#<Space><Enter><++><Esc>kA", {desc=""})
 map("i", "<leader>2", "##<Space><Enter><++><Esc>kA", {desc=""})
 map("i", "<leader>3", "###<Space><Enter><++><Esc>kA", {desc=""})
 map("i", "<leader>4", "####<Space><Enter><++><Esc>kA", {desc=""})
+map("i", "<leader>5", "#####<Space><Enter><++><Esc>kA", {desc=""})
+map("i", "<leader>6", "######<Space><Enter><++><Esc>kA", {desc=""})
 map("i", "<leader>l", "--------<Enter>", {desc=""})
 map("i", "<leader>L", "- [ ] <++><Esc>F]i", {desc=""})
 
