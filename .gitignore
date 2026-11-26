@@ -1,0 +1,7 @@
+# 忽略nvim插件缓存
+.local/share/nvim/
+# 忽略zsh历史、缓存
+.zhs_history
+.zwc
+# 各种MAC系统文件
+.DS_Store

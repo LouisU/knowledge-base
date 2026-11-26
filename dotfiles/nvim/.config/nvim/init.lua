@@ -1,0 +1,108 @@
+-- bootstrap lazy.nvim
+-- local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- if not (vim.uv or vim.loop).fs_stat(lazypath) then
+--   local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+--   local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+--   if vim.v.shell_error ~= 0 then
+--     vim.api.nvim_echo({
+--       { "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+--       { out, "WarningMsg" },
+--       { "\nPress any key to exit...", "WarningMsg" },
+--     }, true, {})
+--     vim.fn.getchar()
+--     os.exit(1)
+--   end
+-- end
+-- vim.opt.rtp:prepend(lazypath)
+
+vim.g.mapleader = ","
+vim.o.mouse = ""
+require("core.options")
+require("core.keymaps")
+require("core.lazy-setup")
+
+-- 加载lazy，声明插件
+-- require("lazy").setup({
+--   {
+--     "nvim-mini/mini.nvim",
+--     config = function()
+--       local starter = require("mini.starter")
+--       starter.setup({
+--         items = {
+--           starter.sections.recent_files(5, false),
+--           {
+--             { name = "Vimwiki Index", action = "VimwikiIndex", section = "Notes" },
+--             { name = "Vimwiki Diary", action = "VimwikiDiaryIndex", section = "Notes" },
+--             { name = "New file", action = "enew", section = "Action" },
+--             { name = "Lazy panel", action = "Lazy", section = "Action" },
+--             { name = "Quit", action = "qall", section = "Action" },
+--           },
+--         },
+--         mappings = {
+--           confirm = "<CR>",
+--         },
+--       })
+--     end
+--   },
+-- 
+--   -- vimwiki，和你之前配置一致
+--   {
+--     "vimwiki/vimwiki",
+--     init = function()
+--       vim.g.vimwiki_list = {
+--         {
+--           path = "~/knowledge-base/",
+--           index = "README",
+--           syntax = "markdown",
+--           ext = ".md",
+--           template_path = "~/knowledge-base/templates/",
+--           template_default = "def_template",
+--           template_ext = ".md",
+--           links_space_char = "-"
+--         },
+--         {
+--           path = "~/Download/study_notes/",
+--           index = "README",
+--           syntax = "markdown",
+--           ext = ".md",
+--           template_path = "~/se/templates/",
+--           template_default = "def_template",
+--           template_ext = ".md",
+--           links_space_char = "-"
+--         },
+-- 
+--       }
+--       vim.g.vimwiki_global_ext = 0
+--       vim.g.vimwiki_markdown_link_ext = 1
+--       vim.g.vimwiki_dir_link = ""
+--     end,
+--     keys = {
+--       { "<leader>wi", "<cmd>VimwikiIndex<cr>", desc = "Vimwiki Index" },
+--       { "<leader>wd", "<cmd>VimwikiDiaryIndex<cr>", desc = "Vimwiki Diary" },
+--     }
+--   },
+-- -- install with yarn or npm
+--    {
+--      "iamcco/markdown-preview.nvim",
+--      cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+--      build = "cd app && yarn install",
+--      init = function()
+--        vim.g.mkdp_filetypes = { "markdown" }
+--        vim.g.mkdp_auto_start = 1 -- 1 nvim auto open preview window
+--        vim.g.mkdp_auto_close = 1 -- 1 nvim auto close prewiew window
+--        
+--      end,
+--      keys = {
+--       { "<leader>m", "<cmd>MarkdownPreviewToggle<cr>", desc = "Vimwiki Index" },
+--      },
+--      ft = { "markdown" },
+--    },
+--   },
+--   {
+--    -- git = {url_format = "https://ghproxy.net/https://github.com/%s.git",},
+-- --   checker = { enabled = false },
+-- --   install = {missing = false } -- 不自动尝试安装缺失插件，需要手动执行:Lazy install才能触发插件安装
+--    }
+-- 
+-- )
+
