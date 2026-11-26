@@ -1,5 +1,6 @@
 return {
   'MeanderingProgrammer/render-markdown.nvim',
+  enabled = false,
   ft = { "markdown", "vimwiki" },
   dependencies = {
     'nvim-treesitter/nvim-treesitter',
