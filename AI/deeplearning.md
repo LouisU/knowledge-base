@@ -1,4 +1,5 @@
 [TOC]
+
 # 深度学习笔记
 ## 1 .python入门
 ### NumPy的使用
@@ -17,7 +18,7 @@
 1. **感知机**: 接收多个输入信号，处理多个信号后，输出一个信号的结构体。
 2. **信号说明**: 感知机的信号只有1或者0两种取值，0对应不传递信号，1对应传递信号。
 3. **工作原理**: 一个接收两个信号的例子。x1, x2是输入信号，y是输出信号。w1, w2是权重。图中的○称为“神经元”或者“节点”。输入信号被送往神经元，会被乘以固定的权重(w1*x1, w2*x2)。神经元会计算传送过来的信号总号，只有当这个总和超过了某个界限值时，才会输出1。这也称为”神经元被激活“。这里将这个界限值称为**阈值**θ。
-<img src="../images/AI/ganzhiji.png" alt="感知机" style="display:block; margin:0 auto; width:50%;">
+<img src="../images/AI/ganzhiji.png" alt="感知机" style="display:block; margin:0 auto; width:50%; clear:both;">
 公式:
 
 $$
@@ -172,8 +173,10 @@ $$ w1 =1, w2 =1 且 w1+w2=0 不存在 $$
 > 
 
 神经网络有输入层(如图最左边一层)，中间层(如图中间若干层, 因为看不见，所以也称隐藏层)，输出层(如图最右边一层)
-<img src="../images/AI/neural_network.png" alt="neural network" style="display:block; margin:0 auto; width:50%;">
- 神经网络的形状与感知机类似。神经元的连接方式与感知机并没有任何差异。那么神经网络中，信号是如何传递的呢？
+
+<img src="../images/AI/neural_network.png" alt="neural network" style="display:block; margin:0 auto; width:50%; clear: both;">
+
+神经网络的形状与感知机类似。神经元的连接方式与感知机并没有任何差异。那么神经网络中，信号是如何传递的呢？
 
 
 ### 从感知机到神经网络的过度
@@ -209,7 +212,7 @@ $$
 
 输入信号(x1, x2)与权重(w1,w2)和偏置b进行了加权总和后，记为a。h()函数将a转换成为输出y。**h()函数中的运算逻辑是重点**。下图中展示了激活函数的作用过程。
 
-<img src="../images/AI/jihuohanshu.png" alt="激活函数的作用" style="display:block; margin:0 auto; width:50%;">
+<img src="../images/AI/jihuohanshu.png" alt="激活函数的作用" style="display:block; margin:0 auto; width:50%; clear:both;">
 
 ##### 启发与思考
 可见单层感知机，也有激活函数的概念。
@@ -234,7 +237,7 @@ h(a) =
 \end{cases}
 $$
 
-<img src="../images/AI/jieyuehanshu.png" alt="阶跃函数图形" style="display:block; margin:0 auto; width:50%;">
+<img src="../images/AI/jieyuehanshu.png" alt="阶跃函数图形" style="display:block; margin:0 auto; width:50%; clear:both;">
 
 阶跃函数代码实现：
 

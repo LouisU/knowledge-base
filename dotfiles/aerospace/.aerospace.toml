@@ -33,7 +33,7 @@ exec-on-workspace-change = ['/bin/bash', '-c',
 [gaps]
 inner.horizontal = 5 
 inner.vertical = 5 
-outer.top = 45   # 重点：对应 sketchybar height=40，留一点余量
+outer.top = 30   # 重点：对应 sketchybar height=40，留一点余量
 outer.bottom = 5
 outer.left = 5
 outer.right = 5
