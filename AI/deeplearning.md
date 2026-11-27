@@ -141,26 +141,108 @@ def OR(x1, x2):
 | 1  | 1  | 0  |
 
 #### 原因分析
+1. 从图行的角度来分析原因：
 
+<div align="center">
+<img src="../images/AI/xianxing.png" alt="线性" width="50%">
+</div>
+
+上图为或门，在坐标中直线很好的将或门的值(○和△)分开。即直线的左侧值为0，直线的右侧值为1.
+
+<div align="center">
+<img src="../images/AI/feixianxing.png" alt="feixianxing" width="50%">
+</div>
+
+而上图为异或门，在坐标轴上，无法用一条直线将○和△分开。所以，可以得出无法用线性方程表示异或门。
+
+
+2. 从数据公式的角度来分析原因：
 从将真值带入感知机线性公式：
+
 $$ w1*0 + w2*0 = 0 $$ 
 $$ w1*1 + w2*0 = 1 $$
 $$ w1*0 + w2*1 = 1 $$
 $$ w1*1 + w2*1 = 0 $$
+
 得:
+
 $$ w1 =1, w2 =1 且 w1+w2=0 不存在 $$
  
 
-从图形中看出无法用线性表示非线性的现象:
+#### 多层感知机
+> 单层感知机有局限，那么多层感知机是否可以表达异或门呢？答案是肯定的。
 
-#### 多层感知机解决该问题
+我们可以通过组合与门、与非门、或门来表示异或门。以下分别为与门、与非门、或门的符号。
 
-用多层感知机表示非线性：
-与非门 + 或门 + 与门
-代码实现
+<div align="center">
+<img src="../images/AI/sanmen.png" alt="sanmen" width="50%">
+</div>
+
+用三个电门组成异或门，如下图：
+
+<div align="center">
+<img src="../images/AI/yihuomen.png" alt="yihuomen" width="50%">
+</div>
+
+其真值表可以表示如下，因为除了输入(x1,x2)和输出y之外，还多了一层(s1,s2)，所以真值表也将表示出s1,s2的值。
+
+| x1  | x2  | s1  | s2  | y   |
+| --- | --- | --- | --- | --- |
+| 0   | 0   | 1   | 0   | 0   |
+| 1   | 0   | 1   | 1   | 1   |
+| 0   | 1   | 1   | 1   | 1   |
+| 1   | 1   | 0   | 1   | 0   |
+
+相当于通过三个电门的组合，实现了线性无法表示的分割，如图示：
+
+<div align="center">
+<img src="../images/AI/yihuomenshixian.png" alt="yihuomenshixian" width="50%">
+</div>
+
+
+
+
+异或门的代码实现
 ```python
-# 异或门代码实现
+# 与门
+def AND(x1, x2):
+    X = np.array([x1, x2])
+    W = np.array([0.5, 0.5])
+    b = - 0.8
+    tmp = np.sum(W*X) + b 
+    if tmp > 0:
+        return 1
+    else:
+        return 0
 
+# 与非门
+def NAND(x1, x2):
+    X = np.array([x1, x2])
+    W = np.array([-0.5, -0.5])
+    b = 0.8
+    tmp = np.sum(W*X) + b 
+    if tmp > 0:
+        return 1
+    else:
+        return 0
+
+# 或门
+def OR(x1, x2):
+    X = np.array([x1, x2])
+    W = np.array([0.5, 0.5])
+    b = -0.3
+    tmp = np.sum(W*X) + b 
+    if tmp > 0:
+        return 1
+    else:
+        return 0
+
+# 异或门
+def XOR(x1, x2):
+    s1 = NAND(x1, x2)
+    s2 = OR(x1, x2)
+    y = AND(s1, s2)
+    return y
 ```
 
 #### 启发与思考
@@ -182,13 +264,21 @@ $$ w1 =1, w2 =1 且 w1+w2=0 不存在 $$
 
 神经网络有输入层(如图最左边一层)，中间层(如图中间若干层, 因为看不见，所以也称隐藏层)，输出层(如图最右边一层)
 
-<img src="../images/AI/neural_network.png" alt="neural network" style="display:block; margin:0 auto; width:50%; clear: both;">
+<div align="center">
+<img src="../images/AI/neural_network.png" alt="neuralNetwork" width="50%">
+</div>
 
-神经网络的形状与感知机类似。神经元的连接方式与感知机并没有任何差异。那么神经网络中，信号是如何传递的呢？
+神经网络的形状与感知机类似。神经元的连接方式与感知机并没有任何差异。那么神经网络与感知机的区别在哪里呢？
 
 
 ### 从感知机到神经网络的过度
 #### 再看感知机, 引出激活函数的概念
+
+<div align="center">
+<img src="../images/AI/ganzhiji.png" alt="ganzhiji" width="50%">
+</div>
+
+
 先来回顾下感知机, 感知机接收两个输入x1与x2, 输出f(x)，也即y。公式如下：
 
 $$
@@ -209,32 +299,22 @@ h(a) =
 \end{cases}
 $$
 
-输入信号的总号会被函数h(a)转换为输出信号。h(a)这样的函数被称为**激活函数**。函数h(a)是一个分段函数，也称为阶跃函数。
-##### 启发与思考 
-感知机的输入信号总和 确实被一个函数作用后，再输出y了。
+输入信号的总和a会被非线性函数h()转换为输出信号y。h()这样的函数被称为**激活函数**。
+
 #### 激活函数的定义与作用
-**激活函数**: 将输入信号的总和作为一个整体, 通过运算给出输出的函数。
+**激活函数**: 将输入信号的总和作为一个整体, 通过非线性运算再给出输出的函数。
+**作用**: 将输入信号的总和作为一个整体，通过非线性的运算，判断该节点是否被激活。
 
-**定义与作用**：
-激活函数的作用在于决定如何来激活 输入信号的总和，即 输入信号的总和作为一个整体，再被带入到激活函数中，去输出新的值。即最重要的是 怎么激活(运算)
-
-输入信号(x1, x2)与权重(w1,w2)和偏置b进行了加权总和后，记为a。h()函数将a转换成为输出y。**h()函数中的运算逻辑是重点**。下图中展示了激活函数的作用过程。
+输入信号(x1, x2)与权重(w1,w2)和偏置b进行了加权总和后，记为a。h()非线性函数将a转换成输出y。**h()函数中的运算逻辑是重点**。下图中展示了激活函数的作用过程。
 
 <img src="../images/AI/jihuohanshu.png" alt="激活函数的作用" style="display:block; margin:0 auto; width:50%; clear:both;">
 
 ##### 启发与思考
-可见单层感知机，也有激活函数的概念。
+单层感知机，也有激活函数。
 
-#### 激活函数是连接感知机和神经网络的桥梁
 
-> “感知机”没有严格统一它所指的算法。一般而言：
-> 
-> “朴素感知机”是指单层网络，指的是激活函数使用了**阶跃函数** 的模型。
-> 
-> "多层感知机“是指神经网络，指的是激活函数使用了**sigmoid函数** 等平滑的激活函数的多层网络。
-##### 启发与思考
-可见神经网络的两个明显特点: 多层、使用了平滑的激活函数。
-### 激活函数：
+### 常用激活函数(阶跃函数、sigmoid函数)
+
 ##### 阶跃函数
 
 $$
@@ -244,22 +324,27 @@ h(a) =
 0, & a\le 0
 \end{cases}
 $$
-
-<img src="../images/AI/jieyuehanshu.png" alt="阶跃函数图形" style="display:block; margin:0 auto; width:50%; clear:both;">
-
-阶跃函数代码实现：
-
+用python画出阶跃函数的图：
 ```python
-def step_function(x): # 参数x只能接受实数
-    if x>0:
-        return 1
-    else:
-        return 0
+import numpy as np
+import matplotlib.pylab as plt
 
-def stip_function(x): # 参数x支持numpy数组
+def step_function(x):
     y = x > 0
     return y.astype(np.int_)
+
+x = np.arange(-5.0, 5.0, 0.1)
+y = step_function(x)
+plt.plot(x, y)
+plt.ylim(-0.1, 1.1) # 指定y轴范围
+plt.show()
+
 ```
+从图行可以看出，当输入小于0时，输出为0; 当输入超过0时，输出为1。属于瞬间阶跃了。感知机用的激活函数就是阶跃函数。
+
+<div align="center">
+<img src="../images/AI/jieyuehanshu.png" alt="jieyuehanshu" width="50%">
+</div>
 
 
 
@@ -269,10 +354,41 @@ $$
 \sigma(x) = \frac{1}{1 + e^{-x}}
 $$
 
+用python来实现sigmoid函数
+```python
+import numpy as np
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+x = np.array(-5.0, 5.0, 01)
+y = sigmoid(x)
+plt.plot(x, y)
+plt.ylim(-0.1, 1.1)
+plt.show()
+
+```
+输出如下光滑的图形。
+<div align="center">
+<img src="../images/AI/sigmoidtuxing.png" alt="sigmoidtuxing" width="50%">
+</div>
+
+阶跃函数与sigmoid函数的对比：
+相同点：
+不同点：
 
 1. 激活函数必须是非线性函数。
 2. 阶跃函数、sigmoid函数都为非线性函数。阶跃函数像竹筒敲石头，只做是否传送水(0或1)两个动作；sigmoid函数像水车一样，根据流过来的水量响应地调整传出去的数量。
 
+#### 激活函数是理解感知机和神经网络的桥梁
+
+> “感知机”没有严格统一它所指的算法。一般而言：
+> 
+> “朴素感知机”是指单层网络，指的是激活函数使用了**阶跃函数** 的模型。
+> 
+> "多层感知机“是指神经网络，指的是激活函数使用了**sigmoid函数** 等平滑的激活函数的多层网络。 -- 这里突然引出”平滑“函数的概念很突兀，没有铺垫没有原因的，突然提”平滑“函数。
+
+##### 启发与思考
+可见神经网络的两个明显特点: 多层、使用了平滑(非线性)的激活函数。
 
 
 
